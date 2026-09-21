@@ -1,0 +1,3 @@
+package com.servicedesk360.controller;
+import com.servicedesk360.dto.sla.*; import com.servicedesk360.service.SlaService; import jakarta.validation.Valid; import org.springframework.web.bind.annotation.*; import java.util.List;
+@RestController @RequestMapping("/api/sla/policies") public class SlaController{private final SlaService service; public SlaController(SlaService s){service=s;} @GetMapping public List<SlaPolicyResponse> list(){return service.list();} @PostMapping public SlaPolicyResponse create(@Valid @RequestBody SlaPolicyRequest r){return service.save(null,r);} @PutMapping("/{id}") public SlaPolicyResponse update(@PathVariable Long id,@Valid @RequestBody SlaPolicyRequest r){return service.save(id,r);}}

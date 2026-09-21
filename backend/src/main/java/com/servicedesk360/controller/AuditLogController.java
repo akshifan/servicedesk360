@@ -1,0 +1,3 @@
+package com.servicedesk360.controller;
+import com.servicedesk360.dto.audit.*; import com.servicedesk360.dto.common.*; import com.servicedesk360.service.AuditLogService; import org.springframework.data.domain.Pageable; import org.springframework.data.web.PageableDefault; import org.springframework.web.bind.annotation.*;
+@RestController @RequestMapping("/api/audit-logs") public class AuditLogController{private final AuditLogService service;public AuditLogController(AuditLogService s){service=s;}@GetMapping public PageResponse<AuditLogResponse> list(@PageableDefault(size=20,sort="createdAt")Pageable p){return service.list(p);}}

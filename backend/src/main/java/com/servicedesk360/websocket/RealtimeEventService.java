@@ -1,0 +1,3 @@
+package com.servicedesk360.websocket;
+import org.springframework.messaging.simp.SimpMessagingTemplate; import org.springframework.stereotype.Service;
+@Service public class RealtimeEventService{private final SimpMessagingTemplate messaging; public RealtimeEventService(SimpMessagingTemplate m){messaging=m;} public void publishTicket(RealtimeEvent e){messaging.convertAndSend("/topic/tenant/"+e.tenantId()+"/tickets",e);} public void publishTask(RealtimeEvent e){messaging.convertAndSend("/topic/tenant/"+e.tenantId()+"/tasks",e);} public void publishUser(String username,RealtimeEvent e){messaging.convertAndSendToUser(username,"/queue/notifications",e);}}
