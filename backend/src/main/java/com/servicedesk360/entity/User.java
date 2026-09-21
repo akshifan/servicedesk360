@@ -15,6 +15,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 import java.time.Instant;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 @Table(
@@ -65,6 +67,16 @@ public class User {
         this.role = role;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
     @PrePersist
     void setCreatedAt() {
         if (createdAt == null) {

@@ -9,7 +9,8 @@ public record UserResponse(
         String name,
         String email,
         String role,
-        boolean active
+        boolean active,
+        Long teamId
 ) {
 
     public static UserResponse from(User user) {
@@ -20,7 +21,10 @@ public record UserResponse(
                 user.getName(),
                 user.getEmail(),
                 user.getRole().name(),
-                user.isActive()
+                user.isActive(),
+            user.getTeam() == null
+                ? null
+                : user.getTeam().getId()
         );
     }
 }

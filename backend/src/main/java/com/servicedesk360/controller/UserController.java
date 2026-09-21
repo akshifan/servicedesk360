@@ -10,11 +10,8 @@ import com.servicedesk360.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import com.servicedesk360.dto.user.UpdateUserTeamRequest;
 
 @RestController
 @RequestMapping("/api/users")
@@ -65,4 +62,13 @@ public class UserController {
     ) {
         return userService.updateRole(id, request);
     }
+
+    @PatchMapping("/{id}/team")
+    public UserResponse updateTeam(
+        @PathVariable Long id,
+        @Valid @RequestBody UpdateUserTeamRequest request
+    ) {
+        return userService.updateTeam(id, request);
+    }
+
 }

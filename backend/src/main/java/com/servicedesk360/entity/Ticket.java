@@ -22,6 +22,18 @@ public class Ticket {
     @Column(name="first_responded_at") private Instant firstRespondedAt;
     @Column(name="resolved_at") private Instant resolvedAt;
     protected Ticket() {}
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     public Ticket(Long tenantId, User requester, String title, String description, TicketPriority priority) { this.tenantId=tenantId; this.requester=requester; this.title=title; this.description=description; this.priority=priority; this.status=TicketStatus.OPEN; this.ticketNumber="PENDING"; }
     @PrePersist void onCreate(){ Instant now=Instant.now(); createdAt=now; updatedAt=now; }
     @PreUpdate void onUpdate(){ updatedAt=Instant.now(); }

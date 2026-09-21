@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
+import com.servicedesk360.entity.Team;
+import com.servicedesk360.repository.TeamRepository;
+import com.servicedesk360.dto.user.UpdateUserTeamRequest;
 
 @Service
 public class UserService {
@@ -26,14 +29,18 @@ public class UserService {
     private final CurrentUserService currentUserService;
     private final PasswordEncoder passwordEncoder;
 
+    private final TeamRepository teamRepository;
+
     public UserService(
             UserRepository userRepository,
             CurrentUserService currentUserService,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            TeamRepository teamRepository
     ) {
         this.userRepository = userRepository;
         this.currentUserService = currentUserService;
         this.passwordEncoder = passwordEncoder;
+        this.teamRepository = teamRepository;
     }
 
     @Transactional
@@ -136,4 +143,37 @@ public class UserService {
     private boolean sameUser(User first, User second) {
         return first.getId() != null && first.getId().equals(second.getId());
     }
+
+    @Transactional
+    public UserResponse updateTeam(
+        Long userId,
+        UpdateUserTeamRequest request
+    ) {
+        CurrentUserService.CurrentUser current =
+            requireTenantAdmin();
+
+        User target =
+            findTenantUser(userId, current.tenantId());
+
+        if (request.teamId() == null) {
+            target.setTeam(null);
+            return UserResponse.from(target);
+        }
+
+        Team team = teamRepository
+            .findByIdAndTenantId(
+                request.teamId(),
+                current.tenantId()
+            )
+            .orElseThrow(() ->
+                new ResourceNotFoundException(
+                    "Team not found"
+                )
+            );
+
+        target.setTeam(team);
+
+        return UserResponse.from(target);
+    }
+
 }
