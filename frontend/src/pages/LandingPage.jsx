@@ -40,7 +40,7 @@ export default function LandingPage() {
     <span>
       ServiceDesk <em>360</em>
     </span>
-    <small className="my-name">by A.K. Shifan</small>
+    <small className="my-name">By A.K. Shifan</small>
   </span>
         </Link>        <div className="landing-links"><a href="#platform">Platform</a><a href="#workflow">How it works</a></div>
         <div className="nav-actions"><Link to="/login" className="nav-login">Sign in</Link><Link to="/login" className="button button-dark button-small">Start workspace <span>→</span></Link></div>
